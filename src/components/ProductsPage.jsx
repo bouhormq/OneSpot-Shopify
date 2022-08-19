@@ -5,6 +5,12 @@ import {
 
 import { useEffect, useState} from 'react';
 import { collection, getDoc, doc, getDocs, query } from 'firebase/firestore';
+import {
+  Provider as AppBridgeProvider,
+  useAppBridge,
+} from "@shopify/app-bridge-react";
+import { userLoggedInFetch } from "../App"
+import { useCallback } from "react";
 
 
 
@@ -46,15 +52,26 @@ export function ProductsPage() {
         const WarehousesDoc = await getDocs(warehousesCollectionRef); //getting all docs for particular user in sub-collection(groups)
         const map = new Map();
         WarehousesDoc.forEach((item) => {
-          map.set(item.id , new Map(Object. entries(item.data())));
+          map.set(item.id , new Map(Object.entries(item.data())));
         }); // loop through each document in group for each user so that we got nested data 
         setWarehouses(map);
       };
 
-    useEffect(() => {
-      getProducts();
-      getWarehouses();
-    }, []);
+      const app = useAppBridge();
+  const fetch = userLoggedInFetch(app);
+  const updateProductCount = useCallback(async () => {
+    const { count } = await fetch("/products").then((res) => res.json());
+  }, []);
+
+  useEffect(() => {
+    getProducts();
+    getWarehouses();
+    updateProductCount();
+  }, []);
+
+
+
+
 
 
   return (

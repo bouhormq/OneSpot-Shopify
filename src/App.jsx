@@ -20,7 +20,6 @@ import { ProductsPage } from "./components/ProductsPage";
 
 
 export default  function App(){
-
   return (
     <PolarisProvider i18n={translations}>
       <AppBridgeProvider
@@ -30,8 +29,8 @@ export default  function App(){
           forceRedirect: true,
         }}
       >
-        <MyProvider children={<GetShop></GetShop>}></MyProvider>
-        <ProductsPage />
+        <MyProvider>
+        </MyProvider>
       </AppBridgeProvider>
     </PolarisProvider>
   );

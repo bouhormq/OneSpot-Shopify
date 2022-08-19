@@ -1,5 +1,6 @@
 import { Shopify } from "@shopify/shopify-api";
 
+
 const TEST_GRAPHQL_QUERY = `
 {
   shop {
@@ -21,7 +22,6 @@ export default function verifyRequest(app, { returnHeader = true } = {}) {
       // The current request is for a different shop. Redirect gracefully.
       return res.redirect(`/auth?shop=${shop}`);
     }
-
     if (session?.isActive()) {
       try {
         // make a request to make sure oauth has succeeded, retry otherwise

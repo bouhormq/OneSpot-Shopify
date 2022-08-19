@@ -10,3 +10,11 @@ export const LOAD_STORE = gql`
     }
   }
 `;
+
+export const LOAD_STORE_DUPLICATE = gql`
+  query product {
+    product @rest(type: "product", path: "") {
+      if
+    }
+  }
+`;

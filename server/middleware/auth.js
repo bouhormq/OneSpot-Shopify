@@ -56,16 +56,40 @@ export default function applyAuthMiddleware(app) {
         })
       );
 
-      const response = await Shopify.Webhooks.Registry.register({
+      const responsewebhook_appuninstall = await Shopify.Webhooks.Registry.register({
         shop: session.shop,
         accessToken: session.accessToken,
         topic: "APP_UNINSTALLED",
         path: "/webhooks",
       });
 
-      if (!response["APP_UNINSTALLED"].success) {
+      const responsewebhook_orderscreate = await Shopify.Webhooks.Registry.register({
+        shop: session.shop,
+        accessToken: session.accessToken,
+        topic: "ORDERS_CREATE",
+        path: "/webhooks",
+      });
+
+      const responsewebhook_fulfillmentscreate = await Shopify.Webhooks.Registry.register({
+        shop: session.shop,
+        accessToken: session.accessToken,
+        topic: "FULFILLMENTS_CREATE",
+        path: "/webhooks",
+      });
+
+      if (!responsewebhook_appuninstall["APP_UNINSTALLED"].success) {
         console.log(
-          `Failed to register APP_UNINSTALLED webhook: ${response.result}`
+          `Failed to register APP_UNINSTALLED webhook: ${esponsewebhook_appuninstall.result}`
+        );
+      }
+      if (!responsewebhook_orderscreate['ORDERS_CREATE'].success) {
+        console.log(
+          `Failed to register ORDERS_CREATE webhook: ${response.result}`
+        );
+      }
+      if (!responsewebhook_fulfillmentscreate['FULFILLMENTS_CREATE'].success) {
+        console.log(
+          `Failed to register FULFILLMENTS_CREATE webhook: ${response.result}`
         );
       }
 
